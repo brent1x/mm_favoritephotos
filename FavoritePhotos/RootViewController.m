@@ -8,7 +8,7 @@
 
 #import "RootViewController.h"
 
-@interface RootViewController ()
+@interface RootViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property NSMutableDictionary *instaRootDictionary;
 @property NSMutableDictionary *instaSecondNestedDictionary;
@@ -16,15 +16,16 @@
 @property NSMutableDictionary *instaFourthNestedDictionary;
 @property NSMutableArray *instaNestedArray;
 
-@property NSMutableArray *arrayContainingFilters;
-@property NSMutableArray *arrayContainingUsername;
 @property NSMutableArray *arrayContainingImageURLs;
+@property NSMutableArray *tempArray;
+@property NSMutableArray *tempArrayTwo;
 
 @property (weak, nonatomic) IBOutlet UITextField *textToSearch;
-@property NSString *interpolatedString;
 @property NSMutableString *tagToSearchFor;
+@property NSString *interpolatedString;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -52,10 +53,16 @@
     self.instaThirdNestedDictionary = [NSMutableDictionary new];
     self.instaFourthNestedDictionary = [NSMutableDictionary new];
 
-    self.arrayContainingFilters = [NSMutableArray new];
-    self.arrayContainingUsername = [NSMutableArray new];
     self.arrayContainingImageURLs = [NSMutableArray new];
+
+
+    self.tempArray = [NSMutableArray new];
+    self.tempArrayTwo = [NSMutableArray new];
+
+    self.imageView.hidden = YES;
 }
+
+#pragma mark SEARCH API METHODS
 
 - (IBAction)searchOnButtonTapped:(id)sender {
     self.interpolatedString = [self.textToSearch.text stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -74,27 +81,44 @@
 
         for (NSDictionary *dictionary in self.instaNestedArray) {
 
-            NSString *filter = [dictionary objectForKey:@"filter"];
-            [self.arrayContainingFilters addObject:filter];
+            // capturing URL of images
+            self.instaSecondNestedDictionary = [dictionary objectForKey:@"images"];
+            self.instaThirdNestedDictionary = [self.instaSecondNestedDictionary objectForKey:@"standard_resolution"];
+            [self.arrayContainingImageURLs addObject:[self.instaThirdNestedDictionary objectForKey:@"url"]];
+            NSLog(@"%@", self.arrayContainingImageURLs);
 
-            self.instaSecondNestedDictionary = [dictionary objectForKey:@"user"];
-            [self.arrayContainingUsername addObject:[self.instaSecondNestedDictionary objectForKey:@"username"]];
+            // capturing name of filter
+            [self.tempArrayTwo addObject:[dictionary objectForKey:@"filter"]];
 
-            NSLog(@"%@", self.arrayContainingUsername);
+            // capturing usernames
+            self.instaFourthNestedDictionary = [dictionary objectForKey:@"user"];
+            [self.tempArray addObject:[self.instaFourthNestedDictionary objectForKey:@"username"]];
 
-            self.instaThirdNestedDictionary = [dictionary objectForKey:@"images"];
-            self.instaFourthNestedDictionary = [self.instaThirdNestedDictionary objectForKey:@"standard_resolution"];
         }
-        // self.testLabel.text = [NSString stringWithFormat:@"%@", [self.arrayContainingFilters lastObject]];
-        // self.testLabelTwo.text = [NSString stringWithFormat:@"%@", [self.instaSecondNestedDictionary objectForKey:@"username"]];
-        // self.testLabelThree.text = [NSString stringWithFormat:@"%@", [self.instaFourthNestedDictionary objectForKey:@"height"]];
 
-        NSURL *imageURL = [NSURL URLWithString:[self.instaFourthNestedDictionary objectForKey:@"url"]];
+        NSURL *imageURL = [NSURL URLWithString:[self.instaThirdNestedDictionary objectForKey:@"url"]];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         self.imageView.image = [UIImage imageWithData:imageData];
         
-        // [self.tableView reloadData];
+        [self.tableView reloadData];
     }];
+}
+
+#pragma mark TABLE VIEW METHODS
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.tempArrayTwo.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.textLabel.text = self.tempArray[indexPath.row];
+    cell.detailTextLabel.text = self.tempArrayTwo[indexPath.row];
+
+    NSData *imageData= [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[self.arrayContainingImageURLs objectAtIndex:indexPath.row]]];
+    cell.imageView.image = [UIImage imageWithData:imageData];
+
+    return cell;
 }
 
 @end
