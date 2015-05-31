@@ -7,6 +7,8 @@
 //
 
 #import "RootViewController.h"
+#import "ImageDetailViewController.h"
+#import "ImageObject.h"
 
 @interface RootViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -14,11 +16,14 @@
 @property NSMutableDictionary *instaSecondNestedDictionary;
 @property NSMutableDictionary *instaThirdNestedDictionary;
 @property NSMutableDictionary *instaFourthNestedDictionary;
+@property NSMutableDictionary *instaFifthNestedDictionary;
 @property NSMutableArray *instaNestedArray;
 
 @property NSMutableArray *arrayContainingImageURLs;
 @property NSMutableArray *tempArray;
 @property NSMutableArray *tempArrayTwo;
+
+@property NSMutableArray *imageObjectsArray;
 
 @property (weak, nonatomic) IBOutlet UITextField *textToSearch;
 @property NSMutableString *tagToSearchFor;
@@ -55,9 +60,9 @@
 
     self.arrayContainingImageURLs = [NSMutableArray new];
 
+    self.imageObjectsArray = [NSMutableArray new];
 
     self.tempArray = [NSMutableArray new];
-    self.tempArrayTwo = [NSMutableArray new];
 
     self.imageView.hidden = YES;
 }
@@ -67,7 +72,6 @@
 - (IBAction)searchOnButtonTapped:(id)sender {
     self.interpolatedString = [self.textToSearch.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     self.tagToSearchFor = [NSMutableString stringWithFormat:@"https://api.instagram.com/v1/tags/%@/media/recent?count=10&client_id=5c15d427b87c46e1bbc09f39ed8741e4", self.interpolatedString];
-    NSLog(@"%@", self.tagToSearchFor);
     [self searchMethod];
 }
 
@@ -78,28 +82,29 @@
 
         self.instaRootDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         self.instaNestedArray = [self.instaRootDictionary objectForKey:@"data"];
+        ImageObject *imageObject = [ImageObject new];
 
         for (NSDictionary *dictionary in self.instaNestedArray) {
 
             // capturing URL of images
             self.instaSecondNestedDictionary = [dictionary objectForKey:@"images"];
             self.instaThirdNestedDictionary = [self.instaSecondNestedDictionary objectForKey:@"standard_resolution"];
+            imageObject.url = [self.instaThirdNestedDictionary objectForKey:@"url"];
             [self.arrayContainingImageURLs addObject:[self.instaThirdNestedDictionary objectForKey:@"url"]];
-            NSLog(@"%@", self.arrayContainingImageURLs);
-
-            // capturing name of filter
-            [self.tempArrayTwo addObject:[dictionary objectForKey:@"filter"]];
 
             // capturing usernames
             self.instaFourthNestedDictionary = [dictionary objectForKey:@"user"];
-            [self.tempArray addObject:[self.instaFourthNestedDictionary objectForKey:@"username"]];
+            imageObject.username = [self.instaFourthNestedDictionary objectForKey:@"username"];
 
+            // converting URLs to NSData to properly display in Table View
+            NSURL *imageURL = [NSURL URLWithString:[self.instaThirdNestedDictionary objectForKey:@"url"]];
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            self.imageView.image = [UIImage imageWithData:imageData];
+
+            // adding image objects to an array
+            [self.imageObjectsArray addObject:imageObject];
         }
 
-        NSURL *imageURL = [NSURL URLWithString:[self.instaThirdNestedDictionary objectForKey:@"url"]];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        self.imageView.image = [UIImage imageWithData:imageData];
-        
         [self.tableView reloadData];
     }];
 }
@@ -107,19 +112,24 @@
 #pragma mark TABLE VIEW METHODS
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.tempArrayTwo.count;
+    return self.imageObjectsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
-    cell.textLabel.text = self.tempArray[indexPath.row];
-    cell.detailTextLabel.text = self.tempArrayTwo[indexPath.row];
-
-    NSData *imageData= [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[self.arrayContainingImageURLs objectAtIndex:indexPath.row]]];
+    NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[self.arrayContainingImageURLs objectAtIndex:indexPath.row]]];
     cell.imageView.image = [UIImage imageWithData:imageData];
-
+    NSLog(@"index row touched: %ld", (long)indexPath.row);
     return cell;
+}
+
+#pragma mark PREPARE FOR SEGUE METHOD
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    ImageDetailViewController *imgVC = segue.destinationViewController;
+    imgVC.imageObject = [self.imageObjectsArray objectAtIndex:indexPath.row];
 }
 
 @end

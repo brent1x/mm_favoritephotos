@@ -14,6 +14,8 @@
 		841D06311B1A3B8C00A1B029 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841D06301B1A3B8C00A1B029 /* Images.xcassets */; };
 		841D06341B1A3B8C00A1B029 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 841D06321B1A3B8C00A1B029 /* LaunchScreen.xib */; };
 		841D06401B1A3B8C00A1B029 /* FavoritePhotosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D063F1B1A3B8C00A1B029 /* FavoritePhotosTests.m */; };
+		84B416011B1BABAB00502095 /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B416001B1BABAB00502095 /* ImageDetailViewController.m */; };
+		84B416071B1BAFB800502095 /* ImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B416061B1BAFB800502095 /* ImageObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		841D06391B1A3B8C00A1B029 /* FavoritePhotosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FavoritePhotosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		841D063E1B1A3B8C00A1B029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		841D063F1B1A3B8C00A1B029 /* FavoritePhotosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FavoritePhotosTests.m; sourceTree = "<group>"; };
+		84B415FF1B1BABAB00502095 /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
+		84B416001B1BABAB00502095 /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
+		84B416051B1BAFB800502095 /* ImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageObject.h; path = ../ImageObject.h; sourceTree = "<group>"; };
+		84B416061B1BAFB800502095 /* ImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageObject.m; path = ../ImageObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +89,12 @@
 			children = (
 				841D06271B1A3B8B00A1B029 /* AppDelegate.h */,
 				841D06281B1A3B8B00A1B029 /* AppDelegate.m */,
+				84B416051B1BAFB800502095 /* ImageObject.h */,
+				84B416061B1BAFB800502095 /* ImageObject.m */,
 				841D062A1B1A3B8B00A1B029 /* RootViewController.h */,
 				841D062B1B1A3B8B00A1B029 /* RootViewController.m */,
+				84B415FF1B1BABAB00502095 /* ImageDetailViewController.h */,
+				84B416001B1BABAB00502095 /* ImageDetailViewController.m */,
 				841D062D1B1A3B8C00A1B029 /* Main.storyboard */,
 				841D06301B1A3B8C00A1B029 /* Images.xcassets */,
 				841D06321B1A3B8C00A1B029 /* LaunchScreen.xib */,
@@ -222,6 +232,8 @@
 				841D062C1B1A3B8B00A1B029 /* RootViewController.m in Sources */,
 				841D06291B1A3B8B00A1B029 /* AppDelegate.m in Sources */,
 				841D06261B1A3B8B00A1B029 /* main.m in Sources */,
+				84B416011B1BABAB00502095 /* ImageDetailViewController.m in Sources */,
+				84B416071B1BAFB800502095 /* ImageObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +428,7 @@
 				841D06451B1A3B8C00A1B029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		841D06461B1A3B8C00A1B029 /* Build configuration list for PBXNativeTarget "FavoritePhotosTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +437,7 @@
 				841D06481B1A3B8C00A1B029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
