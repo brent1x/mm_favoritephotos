@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AOf-a6-qI0">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -23,11 +24,12 @@
                                     <rect key="frame" x="0.0" y="64" width="400" height="400"/>
                                 </variation>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MgM-1s-kMs">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="352" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MgM-1s-kMs">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.91949629783630371" green="0.91965389251708984" blue="0.919486403465271" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="wwH-Bz-MQ8" detailTextLabel="KKd-6G-XgT" style="IBUITableViewCellStyleValue1" id="So5-SS-oSw">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="wwH-Bz-MQ8" detailTextLabel="KKd-6G-XgT" rowHeight="400" style="IBUITableViewCellStyleSubtitle" id="So5-SS-oSw">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="So5-SS-oSw" id="osc-Xc-1Kf">
@@ -42,13 +44,13 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KKd-6G-XgT">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KKd-6G-XgT">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="widthClass=compact">
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     </variation>
                                                 </label>
                                             </subviews>
@@ -74,10 +76,10 @@
                                 <exclude reference="MgM-1s-kMs"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="XWg-I2-jzx"/>
                                 <exclude reference="Gw7-0T-YnC"/>
                                 <exclude reference="bfI-MV-YxX"/>
                                 <exclude reference="kJm-FB-s7c"/>
-                                <exclude reference="XWg-I2-jzx"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -86,10 +88,10 @@
                                 <include reference="MgM-1s-kMs"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="XWg-I2-jzx"/>
                                 <include reference="Gw7-0T-YnC"/>
                                 <include reference="bfI-MV-YxX"/>
                                 <include reference="kJm-FB-s7c"/>
-                                <include reference="XWg-I2-jzx"/>
                             </mask>
                         </variation>
                     </view>
